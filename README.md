@@ -18,7 +18,7 @@ Customer churn directly impacts Monthly Recurring Revenue (MRR) and Long-Term Va
 
 
 ## 🛠️ Tech Stack & Workflow
-1. **Data Generation:** Python (`pandas`, `numpy`) for generating complex synthetic usage signals and injecting controlled real-world data anomalies.
+1. **Data Cleaning:** Python (`pandas`, `numpy`) for cleaning dirty formatting, missing billing fields, and messy text entries.
 2. **Data Transformation & ETL:** SQL (`CTE`, `Window Functions`, `CASE` logic) to clean inconsistent data types, impute null values, and feature-engineer retention metrics.
 3. **Exploratory Data Analysis (EDA):** Python (`matplotlib`, `seaborn`) to examine kernel densities, distribution variances, and categorical churn behavior.
 
