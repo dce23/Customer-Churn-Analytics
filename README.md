@@ -31,18 +31,18 @@ Customer churn directly impacts Monthly Recurring Revenue (MRR) and Long-Term Va
 
 ```sql
 -- High-Level Transformation Sample
-CREATE TABLE analytics_saas_churn_clean AS
-SELECT 
-    customer_id,
-    UPPER(TRIM(plan_tier)) AS plan_tier,
-    (monthly_charge * tenure_months) AS lifetime_value_to_date,
-    CASE 
-        WHEN monthly_login_hours < 10 THEN 'Low Engagement'
-        WHEN monthly_login_hours BETWEEN 10 AND 30 THEN 'Moderate Engagement'
-        ELSE 'High Engagement'
-    END AS engagement_segment,
-    churned
-FROM raw_saas_churn;
+CREATE TABLE clean_saas_churn AS
+WITH cleaned_data AS (
+    SELECT 
+        customer_id,
+        TRIM(UPPER(plan_tier)) AS plan_tier,
+        (monthly_charge * tenure_months) AS lifetime_value_to_date,
+        CASE 
+            WHEN monthly_login_hours < 10 THEN 'Low Engagement'
+            WHEN monthly_login_hours BETWEEN 10 AND 30 THEN 'Moderate Engagement'
+            ELSE 'High Engagement'
+        END AS engagement_level,
+    FROM raw_saas_churn;
 ```
 
 ## 🗄️ SQL Data Modeling & Business Views
@@ -55,12 +55,12 @@ CREATE VIEW v_churn_summary_by_tier AS
 SELECT 
     plan_tier,
     COUNT(customer_id) AS total_customers,
-    SUM(churned) AS churned_customers,
+    SUM(churned) AS total_churned_customers,
     ROUND(AVG(churned) * 100, 2) AS churn_rate_pct,
     ROUND(AVG(monthly_charge), 2) AS avg_mrr,
     ROUND(AVG(support_tickets_30d), 1) AS avg_support_tickets,
     ROUND(AVG(monthly_login_hours), 1) AS avg_login_hours
-FROM analytics_saas_churn_clean
+FROM clean_saas_churn
 GROUP BY plan_tier;
 ```
 ### 📊 Summary Output / Business Insights
