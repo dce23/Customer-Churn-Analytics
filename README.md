@@ -63,4 +63,7 @@ SELECT
 FROM analytics_saas_churn_clean
 GROUP BY plan_tier;
 ```
-
+### 📊 Summary Output / Business Insights
+When queried, the view aggregates the production metrics into the following executive breakdown:
+```markdown
+![EDA Churn Analysis](eda_churn_analysis.png)
