@@ -43,3 +43,24 @@ SELECT
     END AS engagement_segment,
     churned
 FROM raw_saas_churn;
+```
+
+## 🗄️ SQL Data Modeling & Business Views
+
+To provide executive stakeholders with high-level subscription metrics without running expensive queries on raw tables, I engineered a SQL view (`v_churn_summary_by_tier`) that aggregates customer counts, average MRR, and churn rates by plan tier.
+
+### 📝 SQL View Definition
+```sql
+CREATE VIEW v_churn_summary_by_tier AS
+SELECT 
+    plan_tier,
+    COUNT(customer_id) AS total_customers,
+    SUM(churned) AS churned_customers,
+    ROUND(AVG(churned) * 100, 2) AS churn_rate_pct,
+    ROUND(AVG(monthly_charge), 2) AS avg_mrr,
+    ROUND(AVG(support_tickets_30d), 1) AS avg_support_tickets,
+    ROUND(AVG(monthly_login_hours), 1) AS avg_login_hours
+FROM analytics_saas_churn_clean
+GROUP BY plan_tier;
+```
+
