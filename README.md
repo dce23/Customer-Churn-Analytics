@@ -79,3 +79,7 @@ GROUP BY plan_tier;
 When queried, the view aggregates the production metrics into the following executive breakdown:
 
 ![EDA Churn Analysis](eda_churn_analysis.png)
+---
+Data Visualization Dashboard:
+
+![Data Visualization](py_churn_analysis.png)
